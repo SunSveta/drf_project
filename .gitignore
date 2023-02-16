@@ -1,0 +1,5 @@
+__pycashe__/
+*.pyc
+/drf_evn/
+.idea/
+.env
