@@ -1,0 +1,32 @@
+[
+  {
+    "model": "newpro.payment",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "pay_course": 1,
+      "summ": 1000,
+      "payment_method": "cash"
+    }
+  },
+  {
+    "model": "newpro.payment",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "pay_course": 2,
+      "summ": 2000,
+      "payment_method": "transfer"
+    }
+  },
+  {
+    "model":"newpro.payment",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "pay_course": 2,
+      "summ": 3000,
+      "payment_method": "transfer"
+    }
+  }
+]

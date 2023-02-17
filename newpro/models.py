@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from user.models import User
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -19,6 +21,7 @@ class Course(models.Model):
 
 class Lesson(models.Model):
 
+    course_name = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Название курса')
     title = models.CharField(max_length=150, verbose_name='Название урока')
     preview = models.ImageField(upload_to='lesson/', verbose_name='Превью', **NULLABLE)
     description = models.TextField(verbose_name='Описание урока')
@@ -30,3 +33,18 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+
+class Payment(models.Model):
+    CASH = 'cash'
+    TRANSFER = 'transfer'
+    PAY = (
+        ('cash', 'наличные'),
+        ('transfer', 'перевод на счет')
+    )
+
+    paying_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    pay_date = models.TimeField(auto_now_add=True, verbose_name='Дата оплаты')
+    paid_course = models.ForeignKey(Course,on_delete=models.CASCADE, verbose_name='Оплаченный курс', **NULLABLE)
+    paid_lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE, verbose_name='Оплаченный урок', **NULLABLE)
+    summ = models.PositiveIntegerField(default=0, verbose_name='Сумма')
+    pay_type = models.CharField(max_length=20, choices=PAY, default='transfer', verbose_name='Способ оплаты')
