@@ -21,6 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('newpro/', include('newpro.urls')),
+    path('user/', include('user.urls')),
 ]
 
 if settings.DEBUG:

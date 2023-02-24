@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'newpro',
     'user',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,12 @@ AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = '/users/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
