@@ -1,6 +1,8 @@
 from rest_framework import permissions
 from rest_framework.permissions import BasePermission
 
+#TODO переделать пермишены как в образце от Олега
+
 
 class OwnerOrModerator(BasePermission):
 
