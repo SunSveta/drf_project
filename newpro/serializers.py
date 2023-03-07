@@ -23,7 +23,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     #lesson_count = serializers.SerializerMethodField()
     #lessons = LessonSerializer(source='lesson_set', many=True)
-    subscription = serializers.SerializerMethodField()
+    #subscription = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -38,13 +38,13 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 
-    def get_subscription(self, course):
-        user = self.context['request'].user.id
-
-        subs = Subscription.objects.filter(course_id=course.id).filter(user_id=user)
-        if subs:
-            return 'active'
-        return 'inactive'
+    # def get_subscription(self, course):
+    #     user = self.context['request'].user.id
+    #
+    #     subs = Subscription.objects.filter(course_id=course.id).filter(user_id=user)
+    #     if subs:
+    #         return 'active'
+    #     return 'inactive'
 
     # def get_lesson_count(self, instance):
     #     #return Lesson.get_lesson_count(instance)

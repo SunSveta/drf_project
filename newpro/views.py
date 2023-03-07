@@ -34,6 +34,8 @@ class CourseRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Course.objects.all()
     permission_classes = [IsAuthenticated]
 
+
+
 class CourseDestroyAPIView(generics.DestroyAPIView):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
