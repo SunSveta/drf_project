@@ -1,7 +1,13 @@
-from rest_framework import viewsets, generics
+from django.conf import settings
+import requests
+from rest_framework.response import Response
+from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
-from newpro.models import Course, Lesson, Subscription
+from newpro.models import Course, Lesson, Subscription, Payment
 from newpro.permissions import OwnerOnly
 from newpro.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
 
@@ -95,3 +101,61 @@ class SubscriptionUpdateAPIView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         serializer.save(status=Subscription.INACTIVE)
+
+
+# class PaymentAPIView(APIView):
+
+#     # yoomoney.ru
+
+#     def get(self, *args, **kwargs):
+#
+#         course_pk = self.kwargs.get('pk')
+#         course_item = Course.objects.filter(pk=course_pk).first()
+#         context = {
+#             'receiver': settings.YOOMONEY_WALLET,
+#             'label': f'{course_item.title}',
+#             'sum': f'{course_item.price}'
+#         }
+#
+#         return render(self.request, 'newpro/payment_form.html', context)
+
+class TinkoffPayAPIView(APIView):
+    def get(self, *args, **kwargs):
+        course_pk = kwargs.get('pk')
+        course_item = get_object_or_404(Course, pk=course_pk)
+
+        payment = Payment.objects.create(paying_user=self.request.user, paid_course=course_item.id, summ=course_item.price,
+                                         pay_type=Payment.TRANSFER)
+
+        data_for_request = {
+            "TerminalKey": f'{settings.TERMINAL_KEY}',
+            "Amount": course_item.price,
+            "OrderId": course_item.pk,
+            "Description": "Оплата курса",
+            "DATA": {
+                "Phone": "+77051234567",
+                "Email": "admin@sky.pro"
+            },
+            "Receipt": {
+                "Email": "a@test.ru",
+                "Phone": "+79031234567",
+                "EmailCompany": "b@test.ru",
+                "Taxation": "osn",
+                "Items": [
+                    {
+                        "Name": course_item.title,
+                        "Price": course_item.price,
+                        "Quantity": 1.00,
+                        "Amount": course_item.price,
+                        "PaymentMethod": "full_prepayment",
+                        "PaymentObject": "commodity",
+                        "Tax": "vat10",
+                        "Ean13": "0123456789"
+                    }
+                ]
+            }
+        }
+
+        response = requests.post('https://securepay.tinkoff.ru/v2/Init', json=data_for_request)
+
+        return Response(response.json()['PaymentURL'])

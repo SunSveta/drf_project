@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'drf_yasg',
+
     'newpro',
     'user',
     'rest_framework',
@@ -152,3 +154,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+
+YOOMONEY_WALLET = os.getenv('YOOMONEY_WALLET')
+
+TERMINAL_KEY = os.getenv('TERMINAL_KEY')
+

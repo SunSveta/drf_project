@@ -11,6 +11,7 @@ class Course(models.Model):
     description = models.TextField(verbose_name='Описание курса')
     created_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='автор курса', on_delete=models.CASCADE,
                                     **NULLABLE)
+    price = models.PositiveIntegerField(default=0, verbose_name='Стоимость курса')
 
     class Meta:
         verbose_name = 'курс'

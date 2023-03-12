@@ -19,4 +19,8 @@ urlpatterns = [
     path('retrieve_course/<int:pk>/',CourseRetrieveAPIView.as_view(),name='retrieve_course'),
     path('subscription/create/', SubscriptionCreateAPIView.as_view(), name='subscription_create'),
     path('subscription/update/<int:pk>/', SubscriptionUpdateAPIView.as_view(), name='subscription_update'),
+
+    #path('payment/<int:pk>', PaymentAPIView.as_view(), name='payment'),
+    path('tinkoff_pay/<int:pk>', TinkoffPayAPIView.as_view(), name='tinkoff_pay'),
+
               ]

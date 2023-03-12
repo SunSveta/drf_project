@@ -32,6 +32,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'title',
             'preview',
             'description',
+            'price'
             #'lesson_count',
             #'lessons'
         )
