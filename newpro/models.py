@@ -81,3 +81,17 @@ class Subscription(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
+
+
+class PaymentInfo(models.Model):
+
+    Success = models.BooleanField(default=False)
+    ErrorCode = models.PositiveIntegerField(default=0,**NULLABLE)
+    TerminalKey = models.CharField(max_length=100,**NULLABLE)
+    Status = models.CharField(max_length=50, **NULLABLE)
+    PaymentId = models.CharField(max_length=100,**NULLABLE)
+    OrderId = models.CharField(max_length=100,**NULLABLE)
+    Amount = models.PositiveBigIntegerField(default=0,**NULLABLE)
+    PaymentURL = models.CharField(max_length=500,**NULLABLE)
+    Description = models.CharField(max_length=500,**NULLABLE)
+    check_status = models.CharField(**NULLABLE,max_length=50)

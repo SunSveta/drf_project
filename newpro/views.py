@@ -7,10 +7,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from newpro.models import Course, Lesson, Subscription, Payment
+from newpro.models import Course, Lesson, Subscription, Payment, PaymentInfo
 from newpro.permissions import OwnerOnly
 from newpro.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
-
+from newpro.tasks import course_update_check
 
 class CourseListAPIView(generics.ListAPIView):
     serializer_class = CourseSerializer
@@ -33,6 +33,10 @@ class CourseUpdateAPIView(generics.UpdateAPIView):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [IsAuthenticated]
+
+    def perform_update(self, serializer):
+        self.object = serializer.save()
+        course_update_check.delay(self.object.pk)
 
 
 class CourseRetrieveAPIView(generics.RetrieveAPIView):
@@ -91,7 +95,7 @@ class SubscriptionCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(status=Subscription.ACTIVE)
+        serializer.save(status=Subscription.ACTIVE, user_id=self.request.user)
 
 
 class SubscriptionUpdateAPIView(generics.UpdateAPIView):
@@ -118,6 +122,7 @@ class SubscriptionUpdateAPIView(generics.UpdateAPIView):
 #         }
 #
 #         return render(self.request, 'newpro/payment_form.html', context)
+
 
 class TinkoffPayAPIView(APIView):
     def get(self, *args, **kwargs):

@@ -62,7 +62,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
-        fields = ('id', 'course_id', 'status')
+        fields = '__all__'
 
     def create(self, validated_data):
         new_subscription = Subscription.objects.create(**validated_data)
