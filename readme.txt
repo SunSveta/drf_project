@@ -10,4 +10,4 @@
 7. Выполнить миграции python3 manage.py migrate
 8. Запустить сервер python3 manage.py runserver
 
-P.s. только так у меня получилось... и на это ушло три дня(
+
