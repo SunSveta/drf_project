@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env_path = BASE_DIR/ '.env'
+env_path = BASE_DIR/'.env'
 load_dotenv(dotenv_path=env_path)
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-j=4b#hk!t!j!m+jg$aepesny49lkaf5bpc-qe%y%#^d397hbqv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'public',
+        'NAME': 'drf',
         'USER': 'postgres',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
-        'PASSWORD': 'password'
+        'PASSWORD': 'UNloCKed72'
     }
 }
 
